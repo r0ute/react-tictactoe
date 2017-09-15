@@ -74,13 +74,25 @@ class Game extends React.Component {
     }
 
     render() {
+        const boardSize = 3;
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
 
         const moves = history.map((step, move) => {
-            const desc = move ? 'Move #' + move : 'Game start';
+            let desc = move ? 'Move #' + move : 'Game start';
             const className = (this.state.stepNumber === move) ? 'current' : null;
+
+            if (move !== 0) {
+                history[move].squares.forEach((current, ind) => {
+                    if (current !== history[move - 1].squares[ind]) {
+                        const row = Math.floor(ind / boardSize);
+                        const x = row + 1;
+                        const y = ind - row * boardSize + 1;
+                        desc += ' [Player: ' + current + ', Coord: (' + x + ',' + y + ')]';
+                    }
+                });
+            }
 
             return (
                 <li key={move} className={className}>
