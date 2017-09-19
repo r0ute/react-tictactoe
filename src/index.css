@@ -75,10 +75,22 @@ ol, ul {
     cursor: pointer;
 }
 
+.arrow:hover {
+    opacity: .75;
+}
+
 .arrow-up {
     transform: rotate(45deg);
 }
 
 .arrow-down {
     transform: rotate(-135deg);
+}
+
+li {
+    cursor: pointer;
+}
+
+li:hover {
+    text-decoration: underline;
 }
