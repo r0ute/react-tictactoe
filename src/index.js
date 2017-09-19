@@ -82,7 +82,6 @@ class Game extends React.Component {
     }
 
     render() {
-        const boardSize = 3;
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
@@ -95,15 +94,9 @@ class Game extends React.Component {
             let desc = move ? 'Move #' + move : 'Game start';
             const className = (this.state.stepNumber === move) ? 'current' : null;
 
-            if (move !== 0) {
-                history[move].squares.forEach((current, ind) => {
-                    if (current !== history[move - 1].squares[ind]) {
-                        const row = Math.floor(ind / boardSize);
-                        const x = row + 1;
-                        const y = ind - row * boardSize + 1;
-                        desc += ' [Player: ' + current + ', Coord: (' + x + ',' + y + ')]';
-                    }
-                });
+            if (move) {
+                const moveDetails = calculateMove(history, move);
+                desc += ' [Player: ' + moveDetails.player + ', Coord: (' + moveDetails.coords.x + ',' + moveDetails.coords.y + ')]';
             }
 
             return (
@@ -134,7 +127,7 @@ class Game extends React.Component {
                     <div>{status}</div>
                     <div
                         className={`arrow ${this.state.ascOrder ? 'arrow-up' : 'arrow-down'}`}
-                         onClick={() => this.toggleSorting()}
+                        onClick={() => this.toggleSorting()}
                     />
                     <ol>{moves}</ol>
                 </div>
@@ -180,6 +173,28 @@ function calculateWinner(squares) {
             squares: winningSquares
         }
         : null;
+}
+
+function calculateMove(history, move) {
+    let player, coordX, coordY;
+
+    history[move].squares.forEach((current, ind) => {
+        if (current !== history[move - 1].squares[ind]) {
+            const boardSize = 3;
+            const row = Math.floor(ind / boardSize);
+            coordX = row + 1;
+            coordY = ind - row * boardSize + 1;
+            player = current;
+        }
+    });
+
+    return {
+        player: player,
+        coords: {
+            x: coordX,
+            y: coordY
+        }
+    };
 }
 
 
