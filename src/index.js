@@ -163,18 +163,20 @@ function calculateWinner(squares) {
         }
     }
 
-    if (squares.filter((value) => {
+    if (!winner && !squares.filter((value) => {
             return !value;
-        }).length === 0) {
-        winner = 'C';
+        }).length) {
+        winner = 'Cat\'s Game';
     }
 
-    return (winner)
-        ? {
-            name: winner,
-            squares: winningSquares
-        }
-        : null;
+    if (!winner) {
+        return;
+    }
+
+    return {
+        name: winner,
+        squares: winningSquares
+    };
 }
 
 function calculateMove(history, move) {
