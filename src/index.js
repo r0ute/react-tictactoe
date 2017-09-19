@@ -44,7 +44,8 @@ class Game extends React.Component {
                 squares: Array(9).fill(null)
             }],
             stepNumber: 0,
-            xIsNext: true
+            xIsNext: true,
+            ascOrder: true
         }
     }
 
@@ -52,6 +53,12 @@ class Game extends React.Component {
         this.setState({
             stepNumber: step,
             xIsNext: (step % 2) === 0
+        });
+    }
+
+    toggleSorting() {
+        this.setState({
+            ascOrder: !this.state.ascOrder
         });
     }
 
@@ -81,6 +88,10 @@ class Game extends React.Component {
         const winner = calculateWinner(current.squares);
 
         const moves = history.map((step, move) => {
+            if (!this.state.ascOrder) {
+                move = history.length - 1 - move;
+            }
+
             let desc = move ? 'Move #' + move : 'Game start';
             const className = (this.state.stepNumber === move) ? 'current' : null;
 
@@ -121,6 +132,10 @@ class Game extends React.Component {
                 </div>
                 <div className="game-info">
                     <div>{status}</div>
+                    <div
+                        className={`arrow ${this.state.ascOrder ? 'arrow-up' : 'arrow-down'}`}
+                         onClick={() => this.toggleSorting()}
+                    />
                     <ol>{moves}</ol>
                 </div>
             </div>

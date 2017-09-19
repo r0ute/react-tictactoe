@@ -55,3 +55,30 @@ ol, ul {
 .game-info ol > li.current {
     font-weight: bold;
 }
+
+.game-info ol {
+    float: left;
+    margin: 0;
+}
+
+.game-info div:first-child{
+    margin-bottom: 10px;
+}
+
+.arrow {
+    float: left;
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    padding: 4px;
+    margin: 5px 0;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.arrow-up {
+    transform: rotate(45deg);
+}
+
+.arrow-down {
+    transform: rotate(-135deg);
+}
